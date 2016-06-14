@@ -59,9 +59,10 @@ debug("~~~~~~~new~~~~~~~")
 		
 		
 		--do math
+		
 		for i=1,N/2 do 
-			a = math.cos(-2*math.pi*(i-1)/N)
-        	b = math.sin(-2*math.pi*(i-1)/N)
+			a = math.cos(-2 * math.pi*(i-1)/N)
+        	b = math.sin(-2 * math.pi*(i-1)/N)
         	
         	
         	local first = a*X1[i]
@@ -82,11 +83,12 @@ debug("~~~~~~~new~~~~~~~")
 	elseif N == 2 then--back up
 		debug("back")
 		X[1] = x[1] + x[2]
-	    X[2] = x[1] - x[2]	    
-    	Xi[1] = xi[1] + xi[2]
-    	Xi[2] = xi[1] - xi[2]
+	    X[2] = x[1] - x[2]
+	    --Input signal should always be real so these will always be 0
+    	Xi[1] = 0 --xi[1] + xi[2]
+    	Xi[2] = 0 --xi[1] - xi[2]
 		return X,Xi
-	elseif N == 1 then
+	elseif N == 1 then -- with new zero padding should never hit this case
 		debug("Pad")
 		x[2] = 0
 		xi[2] = 0 
