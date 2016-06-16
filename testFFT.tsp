@@ -7,16 +7,13 @@
 	
 	--settings
 	test = 1 				-- 1= sinewave 2= Dc value 3 = shelf
-	N = 16248			-- number of samples
+	N = 2048			-- number of samples
 	debug_key = false 		-- output debug statements
 	Srate = 1/1E-6			-- sampling rate
 	
 	--create buffers
 	sig = buffer.make(N, buffer.STYLE_WRITABLE_FULL)
 	buffer.write.format(sig, buffer.UNIT_VOLT, buffer.DIGITS_7_5, buffer.UNIT_SECOND, buffer.DIGITS_7_5)
-	
-	mag = buffer.make(N, buffer.STYLE_WRITABLE_FULL)
-	buffer.write.format(mag, buffer.UNIT_DECIBEL, buffer.DIGITS_7_5, buffer.UNIT_HERTZ, buffer.DIGITS_7_5)
 	
 	--for testing purposes
 	print("start creating signal")	
@@ -57,27 +54,27 @@
 	
 	print()
 	print()
-	freq = {}
-	Fmag = {}
 	N = table.getn(F)
+	mag = buffer.make(N/2, buffer.STYLE_WRITABLE_FULL)
+	buffer.write.format(mag, buffer.UNIT_DECIBEL, buffer.DIGITS_7_5, buffer.UNIT_HERTZ, buffer.DIGITS_7_5)
 	Sres = Srate/N
 	maxF = Sres * N/2	
-	for j=1,table.getn(F)/2 do
-		Fmag[j] = 20*math.log10(math.sqrt(math.pow(F[j],2) + math.pow(Fi[j],2))) 	-- calculate magnitude
-		freq[j] = (j-1)*Sres												-- calculate frequency 
-		buffer.write.reading(mag, Fmag[j], freq[j] )						-- store in buffer
+	for j=1,N/2 do
+		Fmag = 20*math.log10(math.sqrt(math.pow(F[j],2) + math.pow(Fi[j],2))) 	-- calculate magnitude
+		freq = (j-1)*Sres														-- calculate frequency 
+		buffer.write.reading(mag, Fmag, freq )									-- store in buffer
 		--print(F[j],Fi[j])
 	end
 	
 	print("finished filling buffer")
 	
 	
-	display.graph.removeall(display.SCREEN_GRAPH)
+	--display.graph.removeall(display.SCREEN_GRAPH)
 	--display.graph.add(display.SCREEN_GRAPH, sig)
 	--display.graph.select(display.SCREEN_GRAPH,  sig)
 	--display.graph.scalex(display.SCREEN_GRAPH,display.XSCALE_SMART)	
-	display.graph.add(display.SCREEN_GRAPH, mag)
+	display.graph.add(display.SCREEN_GRAPH, mag, display.ELEMENT_DATA, mag, display.ELEMENT_EXTRA)
 	display.graph.select(display.SCREEN_GRAPH,  mag)	
 	display.graph.scalex(display.SCREEN_GRAPH,display.XSCALE_OFF, display.AXIS_NORMAL, 0, maxF)
 	display.graph.scaley(display.SCREEN_GRAPH,display.YSCALE_SMART, display.AXIS_NORMAL)
-	display.changescreen(display.SCREEN_GRAPH)
+	--display.changescreen(display.SCREEN_GRAPH)

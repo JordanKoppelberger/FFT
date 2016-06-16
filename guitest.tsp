@@ -152,7 +152,7 @@ function fft_press_event()
 	Fi = {}
 	
 	mag = buffer.make(N, buffer.STYLE_WRITABLE_FULL)
-	buffer.write.format(mag, buffer.UNIT_PERCENT, buffer.DIGITS_7_5, buffer.UNIT_HERTZ, buffer.DIGITS_7_5)
+	buffer.write.format(mag, buffer.UNIT_DECIBEL, buffer.DIGITS_7_5, buffer.UNIT_HERTZ, buffer.DIGITS_7_5)
 	
 	--start fft
 	if take_readings == 1 then
@@ -192,10 +192,10 @@ function fft_press_event()
 	--display.graph.add(display.SCREEN_GRAPH, sig)
 	--display.graph.select(display.SCREEN_GRAPH,  sig)
 	--display.graph.scalex(display.SCREEN_GRAPH,display.XSCALE_SMART)	
-	--display.graph.add(display.SCREEN_GRAPH, mag)
-	--display.graph.select(display.SCREEN_GRAPH,  mag)	
-	--display.graph.scalex(display.SCREEN_GRAPH,display.XSCALE_OFF, display.AXIS_NORMAL, 0, maxF)
-	--display.graph.scaley(display.SCREEN_GRAPH,display.YSCALE_SMART, display.AXIS_NORMAL)
+	display.graph.add(display.SCREEN_GRAPH, mag)
+	display.graph.select(display.SCREEN_GRAPH,  mag)	
+	display.graph.scalex(display.SCREEN_GRAPH,display.XSCALE_OFF, display.AXIS_NORMAL, 0, maxF)
+	display.graph.scaley(display.SCREEN_GRAPH,display.YSCALE_SMART, display.AXIS_NORMAL)
 	--display.changescreen(display.SCREEN_GRAPH)
 end
 
